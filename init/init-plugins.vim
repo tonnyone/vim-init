@@ -277,6 +277,9 @@ if index(g:bundle_group, 'filetypes') >= 0
 
 	" vim org-mode 
 	Plug 'jceb/vim-orgmode', { 'for': 'org' }
+
+	" vim vim-go
+	Plug 'fatih/vim-go'
 endif
 
 

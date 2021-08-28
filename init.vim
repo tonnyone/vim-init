@@ -49,5 +49,5 @@ LoadScript init/init-style.vim
 " 自定义按键
 LoadScript init/init-keymaps.vim
 
-
-
+" coc 配置 
+LoadScript init/init-coc.vim

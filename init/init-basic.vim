@@ -23,6 +23,8 @@ set bs=eol,start,indent
 " 自动缩进
 set autoindent
 
+" 文件在Vim之外修改过，自动重新读入"
+set autoread
 " 打开 C/C++ 语言缩进优化
 set cindent
 

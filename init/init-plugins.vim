@@ -9,13 +9,14 @@
 " vim: set ts=4 sw=4 tw=78 noet :
 
 
-
 "----------------------------------------------------------------------
 " 默认情况下的分组，可以再前面覆盖之
 "----------------------------------------------------------------------
 if !exists('g:bundle_group')
-	let g:bundle_group = ['basic', 'tags', 'enhanced', 'filetypes', 'textobj']
-	let g:bundle_group += ['tags', 'airline', 'nerdtree', 'ale', 'echodoc']
+	let g:bundle_group = ['basic', 'enhanced', 'filetypes', 'textobj']
+	let g:bundle_group += ['airline', 'nerdtree', 'commenter','translator']
+	"let g:bundle_group += ['tags', 'grammer', 'ale', 'echodoc']
+	let g:bundle_group += ['coc']
 	let g:bundle_group += ['leaderf']
 endif
 
@@ -45,7 +46,7 @@ call plug#begin(get(g:, 'bundle_home', '~/.vim/bundles'))
 Plug 'easymotion/vim-easymotion'
 
 " 文件浏览器，代替 netrw
-Plug 'justinmk/vim-dirvish'
+" Plug 'justinmk/vim-dirvish'
 
 " 表格对齐，使用命令 Tabularize
 Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
@@ -221,6 +222,8 @@ if index(g:bundle_group, 'tags') >= 0
 
 	" 禁止 gutentags 自动链接 gtags 数据库
 	let g:gutentags_auto_add_gtags_cscope = 0
+	" 显示错误输出
+	" let g:gutentags_trace = 1
 endif
 
 
@@ -279,7 +282,7 @@ if index(g:bundle_group, 'filetypes') >= 0
 	Plug 'jceb/vim-orgmode', { 'for': 'org' }
 
 	" vim vim-go
-	Plug 'fatih/vim-go'
+	Plug 'fatih/vim-go', { 'for': 'go' }
 endif
 
 
@@ -316,6 +319,7 @@ if index(g:bundle_group, 'nerdtree') >= 0
 	let g:NERDTreeHijackNetrw = 0
 	noremap <space>nn :NERDTree<cr>
 	noremap <space>no :NERDTreeFocus<cr>
+	noremap <space>nf :NERDTreeFind<cr>
 	noremap <space>nm :NERDTreeMirror<cr>
 	noremap <space>nt :NERDTreeToggle<cr>
 endif
@@ -521,12 +525,83 @@ if index(g:bundle_group, 'leaderf') >= 0
 endif
 
 
+"---------------------------------------------------------------------
+"  coc-nvim
+"---------------------------------------------------------------------
+if index(g:bundle_group, 'coc') >= 0
+	Plug 'neoclide/coc.nvim', { 'branch': 'master', 'do': 'yarn install --frozen-lockfile' }
+	let g:coc_global_extensions =[ 
+		\'coc-tsserver',
+		\'coc-html',
+		\'coc-css',
+		\'coc-json',
+		\'coc-git',
+		\'coc-pairs'
+	\]
+endif
+
+"----------------------------------------------------------------------
+" 文件类型扩展
+"----------------------------------------------------------------------
+if index(g:bundle_group, 'commenter') >= 0
+	" 注释插件
+	Plug 'scrooloose/nerdcommenter', {'branch': 'release'}
+	" 覆盖vim默认的操作not work
+	nnoremap <C-/> :NERDCommenterToggle<CR>
+	vnoremap <C-/> :NERDCommenterToggle<CR>gv
+	" Create default mappings
+	let g:NERDCreateDefaultMappings = 1
+	
+	" Add spaces after comment delimiters by default
+	let g:NERDSpaceDelims = 1
+	let g:NERDCustomDelimiters = { 'go': { 'left': '//'} }
+	
+	" Use compact syntax for prettified multi-line comments
+	let g:NERDCompactSexyComs = 1
+	
+	" Align line-wise comment delimiters flush left instead of following code indentation
+	let g:NERDDefaultAlign = 'left'
+	
+	" Set a language to use its alternate delimiters by default
+	let g:NERDAltDelims_go = 1
+	
+	" Allow commenting and inverting empty lines (useful when commenting a region)
+	let g:NERDCommentEmptyLines = 1
+	
+	" Enable trimming of trailing whitespace when uncommenting
+	let g:NERDTrimTrailingWhitespace = 1
+	
+	" Enable NcRDCommenterToggle to check all selected lines is commented or not 
+	let g:NERDToggleCheckAllLines = 1
+endif
+
+"----------------------------------------------------------------------
+" translator
+"----------------------------------------------------------------------
+if index(g:bundle_group, 'translator') >= 0
+
+	Plug 'voldikss/vim-translator'
+	" Available: 'bing', 'google', 'haici', 'iciba'(expired), 'sdcv', 'trans', 'youdao'
+	let g:translator_default_engines = ['bing']
+	"" Configuration example
+	" Echo translation in the cmdline
+	nnoremap <m-t> :TranslateW<CR>
+	vnoremap <m-t> :TranslateWV<CR>
+	" Display translation in a window
+	" nmap <silent> <Leader>w <Plug>TranslateW
+	" vmap <silent> <Leader>w <Plug>TranslateWV
+	" " Replace the text with translation
+	" nmap <silent> <Leader>r <Plug>TranslateR
+	" vmap <silent> <Leader>r <Plug>TranslateRV
+	" " Translate the text in clipboard
+	" nmap <silent> <Leader>x <Plug>TranslateX
+	" "	
+endif
+
 "----------------------------------------------------------------------
 " 结束插件安装
 "----------------------------------------------------------------------
 call plug#end()
-
-
 
 "----------------------------------------------------------------------
 " YouCompleteMe 默认设置：YCM 需要你另外手动编译安装

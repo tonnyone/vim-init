@@ -41,7 +41,7 @@ LoadScript init/init-config.vim
 LoadScript init/init-tabsize.vim
 
 " 插件加载
-LoadScript init/init-plugins.vim
+" LoadScript init/init-plugins.vim
 
 " 界面样式
 LoadScript init/init-style.vim
@@ -50,4 +50,4 @@ LoadScript init/init-style.vim
 LoadScript init/init-keymaps.vim
 
 " coc 配置 
-LoadScript init/init-coc.vim
+" LoadScript init/init-coc.vim
